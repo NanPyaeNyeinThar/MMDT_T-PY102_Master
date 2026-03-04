@@ -58,6 +58,14 @@ def reverseList(head):
     Reverse a singly linked list and return the new head.
     Time: O(n), Space: O(1)
     """
+    prev = None
+    crt = head
+    while crt is not None:
+        next_node = crt.next
+        crt.next = prev
+        prev = crt
+        crt = next_node
+    return prev
     # TODO: Implement
     raise NotImplementedError
 
@@ -76,7 +84,48 @@ def doubleIt(head):
     - Use linked-list operations/pointer logic.
     - Avoid converting the entire list into an integer/string for the core solution.
     """
+    new_head = reverseList(head)
+
+    carry = 0
+    crt = new_head
+    prev = None
+
+    while crt is not None:
+        total = crt.val * 2 + carry
+        crt.val = total % 10
+        carry = total // 10
+
+        prev = crt
+        crt = crt.next
+    
+    if carry:
+        prev.next = Node(carry)
+    
+    head = reverseList(new_head)
+
+    return head
 
     # TODO: Implement
     raise NotImplementedError
 
+def showStrValue(head):
+    crt = head
+    number = 0
+    while crt:
+        number = number * 10 + crt.val
+        crt = crt.next
+    return number
+
+if __name__ == "__main__":
+    s1 = SinglyLinkedList.from_list([1,2,3,4,5])
+    print("Original List:", s1.to_list())
+
+    new_head = reverseList(s1.head)
+    print("Reverse List:", SinglyLinkedList(new_head).to_list())
+
+    s2 = SinglyLinkedList.from_list([9,9,9])
+    print("Before List:", s2.to_list())
+
+    new_head1 = doubleIt(s2.head)
+    print("After doubleIt:", SinglyLinkedList(new_head1).to_list())
+    print("DoubleIt value:", showStrValue(new_head1))
