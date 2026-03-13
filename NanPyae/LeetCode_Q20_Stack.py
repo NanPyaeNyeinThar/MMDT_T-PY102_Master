@@ -65,4 +65,4 @@ class solution:
     
 sol = solution()
 #sol.isValid("[{(3)}]")
-sol.isValid("{}")
+sol.isValid("(()")

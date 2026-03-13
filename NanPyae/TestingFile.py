@@ -1,57 +1,56 @@
 from collections import deque
 
-def next_greater_to_right(nums: list[int]) -> list[int]:
+def hot_potato(names: list[str], k: int) -> str:
     """
-    For each element, find the next greater element to its right.
-    If none exists, output -1 for that position.
+    Simulate the Hot Potato game.
+
+    - names is a list of players in initial order.
+    - The potato starts with the first person in the list.
+    - Pass the potato exactly k times in a circular manner.
+    - After the k-th pass, eliminate the person holding the potato.
+    - The person immediately after the eliminated player
+      (in circular order) holds the potato next.
+    - Continue until one player remains. Return the winner's name.
 
     Example:
-      nums = [2, 1, 2, 4, 3]
-      output -> [4, 2, 4, -1, -1]
+      names = ["A", "B", "C", "D"]
+      k = 2
+      1st round: 
+      - "A"--> "B-->C
+      - C is eliminated. 
+      - Remaining: ["A", "B", "D"]
+      - Next HOlder: "D"
+      2nd round:
+      - "D" --> "A" --> "B"
+      - B is eliminated
+      - Remaining: ["D", "A"]
+      3rd round: 
+      - "D"--> "A" --> "D"
+      - D is eliminated. 
+
+     Winner: "A"
+
     """
-    nums1 = nums.copy()
-    output_list = []
-    compare_list = []
 
-    #reverse input list
-    while nums1:
-        for num in nums1:
-            compare_list.append(nums1[-1])
-            nums1.pop()
-              
-    print("compare_list", compare_list)
-    print("nums", nums)
-    # i = 0
-    # while i < len(nums):
-    #     for num in compare_list:
-    #         if nums[i] > compare_list[-1]:
-    #             print("in if", nums[i])
-    #             choose_num = compare_list[-1]
-    #             print("choose_num", choose_num)
-    #             compare_list.pop()
-    #         else:
-    #             print("in else")
-    #             choose_num = -1
-        
-    #     output_list.append(choose_num)
-    #     print("Output list", output_list)
-    #     i += 1
-    
-    # print(output_list)
+    # Convert the list of names into a deque (queue)
+    queue = deque(names)
 
-    while len(compare_list)>1:
-        if compare_list[-2] > compare_list[-1]:
-            choose_num = compare_list[-2]
-            print("choose_num", choose_num)
-            compare_list.pop()
-        else:
-            choose_num = -1
-            compare_list.pop()
+    while len(queue) > 1:  # Keep going until only one player remains
+        # Pass the potato k times
+        for i in range(k):
+            person = queue.popleft()  # Take the person from the front
+            queue.append(person)      # Put them at the back
 
-        output_list.append(choose_num)
-    output_list.append(-1)
-    print(output_list)
-nums = [2, 1, 2, 4, 3]
-#nums = [2, 5, 2, 4, 3]
-next_greater_to_right(nums)
+        # Eliminate the person holding the potato (front of queue)
+        eliminated = queue.popleft()
+        print(f"Eliminated: {eliminated}")
 
+    # The last remaining person is the winner
+    winner = queue[0]
+    return winner
+
+# Example usage
+names = ["A", "B", "C", "D"]
+k = 2
+winner = hot_potato(names, k)
+print("Winner:", winner)

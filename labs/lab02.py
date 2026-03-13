@@ -31,6 +31,22 @@ def is_balanced_parentheses(s: str) -> bool:
       is_balanced_parentheses("(]") -> False
       is_balanced_parentheses("a+(b*c)-{d/e}") -> True
     """
+    pair_dict = {")":"(", "}":"{", "]":"["}
+    stack_list = []
+    for char in s:
+        if char in pair_dict.values():
+            stack_list.append(char)
+        elif char in pair_dict:
+            if len(stack_list) == 0:
+                return False
+            elif stack_list[-1] == pair_dict[char]:
+                stack_list.pop()
+            else:
+                return False
+        else:
+            continue
+        
+    return len(stack_list)==0
     # TODO: implement using a stack
     raise NotImplementedError
 
@@ -44,6 +60,21 @@ def next_greater_to_right(nums: list[int]) -> list[int]:
       nums = [2, 1, 2, 4, 3]
       output -> [4, 2, 4, -1, -1]
     """
+    output_list = []
+    for i in range(len(nums)):
+        stack = list(reversed(nums[i + 1:]))  # use reversed function
+        next_greater = -1
+
+        while stack:
+            top = stack.pop()
+            if top > nums[i]:
+                next_greater = top
+                break
+
+        output_list.append(next_greater)
+    
+    return output_list
+
     # TODO: implement using a stack (monotonic stack)
     raise NotImplementedError
 
@@ -69,6 +100,27 @@ def first_non_repeating(stream: str) -> str:
 
       Output: "a#bb"
     """
+    queue = deque()
+    count = {}
+    output = ""
+
+    for char in stream:
+        if char in count:
+            count[char] += 1
+        else:
+            count[char] = 1
+        
+        queue.append(char)
+        
+        while queue and count[queue[0]] > 1:
+            queue.popleft()
+        
+        if queue:
+            output += queue[0]
+        else:
+            output += "#"
+    return output 
+
     # TODO: implement using a queue + counts
     raise NotImplementedError
 
@@ -104,5 +156,18 @@ def hot_potato(names: list[str], k: int) -> str:
      Winner: "A"
 
     """
+    queue = deque(names)
+
+    while len(queue) > 1:  
+        for i in range(k):
+            person = queue.popleft()  
+            queue.append(person)    
+
+        eliminated = queue.popleft()
+        print(f"Eliminated: {eliminated}")
+
+    winner = queue[0]
+    return winner
+
     # TODO: implement using a queue (deque)
     raise NotImplementedError
