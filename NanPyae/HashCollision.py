@@ -1,3 +1,5 @@
+# Mid Square Hash
+# Key Distribution
 def mid_square_hash(key, N, R):
     #step 1: square the key
     squared = key * key
