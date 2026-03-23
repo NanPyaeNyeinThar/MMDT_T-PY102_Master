@@ -5,5 +5,6 @@ __pycache__/
 
 tests/
 solutions/
+livecode/
 autograder/
 .DS_Store
