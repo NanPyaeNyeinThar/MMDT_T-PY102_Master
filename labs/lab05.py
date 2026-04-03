@@ -40,10 +40,34 @@ def height(root):
 
 def _build(nums: List[int], left: int, right: int):
     #TODO
+    mid = (left + right)//2
+    root = TreeNode(nums[mid])
+    index = nums.index(root)
+
+    for num in nums:
+        if num == root & nums.index(num)==mid:
+            continue
+        else:
+            root.left = TreeNode(num)
+
+    print('mid',mid)
+    print('root',root)
+    print('index',index)
+    # print(nums.index(root))
+   
+    # node_height = height(root)
+    # print(node_height)
+    return inorder(root)
+
     raise NotImplementedError("Implement Q1 here.")
+    
+
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
+   print(nums)
    new_tree_root = _build(nums, 0, len(nums) - 1)
+   print(new_tree_root)
+
    return new_tree_root
 
 # ------------------------------------------------------------
@@ -60,9 +84,9 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 # - Return the root of the tree after insertion.
 # ------------------------------------------------------------
 
-def insert_bst(root: Optional[TreeNode], value: int):
-    #TODO
-    raise NotImplementedError("Implement Q2 here.")
+# def insert_bst(root: Optional[TreeNode], value: int):
+#     #TODO
+#     raise NotImplementedError("Implement Q2 here.")
 
 # ------------------------------------------------------------
 # Q3 — BST in real life application
@@ -86,9 +110,12 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # 5) Print the max possible iterations to search a student id in your final BST. 
 # ------------------------------------------------------------
 
-def build_class_bst():
-    init_id = 1001
-    num_stus = 6
-    nums = [init_id + k for k in range(num_stus)]
-    #TODO
-    raise NotImplementedError("Implement Q3 here.")
+# def build_class_bst():
+#     init_id = 1001
+#     num_stus = 6
+#     nums = [init_id + k for k in range(num_stus)]
+#     #TODO
+#     raise NotImplementedError("Implement Q3 here.")
+
+nums = [-10, -3, 0, 5, 9]
+print(sorted_array_to_bst(nums))
