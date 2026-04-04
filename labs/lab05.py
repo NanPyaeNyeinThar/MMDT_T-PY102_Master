@@ -40,33 +40,23 @@ def height(root):
 
 def _build(nums: List[int], left: int, right: int):
     #TODO
+
+    if left > right:
+        return None
+
     mid = (left + right)//2
     root = TreeNode(nums[mid])
-    index = nums.index(root)
+    
+    root.left = _build(nums, left, mid -1)
+    root.right = _build(nums, mid+1, right)
 
-    for num in nums:
-        if num == root & nums.index(num)==mid:
-            continue
-        else:
-            root.left = TreeNode(num)
-
-    print('mid',mid)
-    print('root',root)
-    print('index',index)
-    # print(nums.index(root))
-   
-    # node_height = height(root)
-    # print(node_height)
-    return inorder(root)
+    return root
 
     raise NotImplementedError("Implement Q1 here.")
     
 
-
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
-   print(nums)
    new_tree_root = _build(nums, 0, len(nums) - 1)
-   print(new_tree_root)
 
    return new_tree_root
 
@@ -84,9 +74,20 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 # - Return the root of the tree after insertion.
 # ------------------------------------------------------------
 
-# def insert_bst(root: Optional[TreeNode], value: int):
-#     #TODO
-#     raise NotImplementedError("Implement Q2 here.")
+def insert_bst(root: Optional[TreeNode], value: int):
+    #TODO
+    if root is None:
+        return TreeNode(value)
+    
+    if value < root.value:
+        root.left = insert_bst(root.left, value)
+
+    if value > root.value:
+        root.right = insert_bst(root.right, value)
+
+    return root    
+
+    raise NotImplementedError("Implement Q2 here.")
 
 # ------------------------------------------------------------
 # Q3 — BST in real life application
@@ -110,12 +111,17 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 # 5) Print the max possible iterations to search a student id in your final BST. 
 # ------------------------------------------------------------
 
-# def build_class_bst():
-#     init_id = 1001
-#     num_stus = 6
-#     nums = [init_id + k for k in range(num_stus)]
-#     #TODO
-#     raise NotImplementedError("Implement Q3 here.")
+def build_class_bst():
+    init_id = 1035
+    num_stus = 6
+    nums = [init_id + k for k in range(num_stus)]
+    #TODO
 
-nums = [-10, -3, 0, 5, 9]
-print(sorted_array_to_bst(nums))
+    groupF = sorted_array_to_bst(nums)
+    insertNew = insert_bst(groupF, 1043)
+    print_all_nodes(insertNew)
+
+    maxIteration = height(insertNew)
+    print("max possible iteration to search a student id:", maxIteration)
+
+    #raise NotImplementedError("Implement Q3 here.")
