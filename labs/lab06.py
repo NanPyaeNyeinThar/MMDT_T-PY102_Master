@@ -135,7 +135,7 @@ def personal_priority_q():
     # TODO: return the list 
     # highest priority (lowest score) should be always top
 
-    return None
+    # return None
 
 # arr = [1,3,2,5,9,8,6]
 # print(arr)
